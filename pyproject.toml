@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "graphql-python"
+version = "0.1.0"
+description = "GraphQL Python server for querying PostgreSQL data"
+authors = ["dongju93 <spdlqj011@gmail.com>"]
+maintainers = ["dongju93 <spdlqj011@gmail.com>"]
+readme = "README.md"
+repository = "https://github.com/dongju93/graphql-server-py"
+package-mode = false
+
+
+[tool.poetry.dependencies]
+python = "^3.12"
+fastapi = "^0.113.0"
+uvicorn = {extras = ["standard"], version = "^0.30.6"}
+sqlalchemy = "^2.0.34"
+graphene = "^3.3"
+psycopg2-binary = "^2.9.9"
+ariadne = "^0.23.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
