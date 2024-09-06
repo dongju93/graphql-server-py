@@ -1,0 +1,151 @@
+# schema/schema.graphql
+
+type Query {
+    actors(limit: Int = 10): [Actor]
+    addresses(limit: Int = 10): [Address]
+    categories(limit: Int = 10): [Category]
+    cities(limit: Int = 10): [City]
+    countries(limit: Int = 10): [Country]
+    customers(limit: Int = 10): [Customer]
+    films(limit: Int = 10): [Film]
+    filmActors(limit: Int = 10): [FilmActor]
+    filmCategories(limit: Int = 10): [FilmCategory]
+    inventories(limit: Int = 10): [Inventory]
+    languages(limit: Int = 10): [Language]
+    payments(limit: Int = 10): [Payment]
+    rentals(limit: Int = 10): [Rental]
+    staffs(limit: Int = 10): [Staff]
+    stores(limit: Int = 10): [Store]
+}
+
+type Actor {
+    actor_id: ID!
+    first_name: String!
+    last_name: String!
+    last_update: String!
+}
+
+type Address {
+    address_id: ID!
+    address: String!
+    address2: String
+    district: String!
+    city_id: Int!
+    postal_code: String
+    phone: String!
+    last_update: String!
+}
+
+type Category {
+    category_id: ID!
+    name: String!
+    last_update: String!
+}
+
+type City {
+    city_id: ID!
+    city: String!
+    country_id: Int!
+    last_update: String!
+}
+
+type Country {
+    country_id: ID!
+    country: String!
+    last_update: String!
+}
+
+type Customer {
+    customer_id: ID!
+    store_id: Int!
+    first_name: String!
+    last_name: String!
+    email: String
+    address_id: Int!
+    activebool: Boolean!
+    create_date: String!
+    last_update: String
+    active: Int
+}
+
+type Film {
+    film_id: ID!
+    title: String!
+    description: String
+    release_year: Int
+    language_id: Int!
+    rental_duration: Int!
+    rental_rate: Float!
+    length: Int
+    replacement_cost: Float!
+    rating: String
+    last_update: String!
+    special_features: [String]
+}
+
+# 기존 타입들 유지
+
+type FilmActor {
+    actor_id: ID!
+    film_id: ID!
+    last_update: String!
+}
+
+type FilmCategory {
+    film_id: ID!
+    category_id: ID!
+    last_update: String!
+}
+
+type Inventory {
+    inventory_id: ID!
+    film_id: ID!
+    store_id: ID!
+    last_update: String!
+}
+
+type Language {
+    language_id: ID!
+    name: String!
+    last_update: String!
+}
+
+type Payment {
+    payment_id: ID!
+    customer_id: ID!
+    staff_id: ID!
+    rental_id: ID!
+    amount: Float!
+    payment_date: String!
+}
+
+type Rental {
+    rental_id: ID!
+    rental_date: String!
+    inventory_id: ID!
+    customer_id: ID!
+    return_date: String
+    staff_id: ID!
+    last_update: String!
+}
+
+type Staff {
+    staff_id: ID!
+    first_name: String!
+    last_name: String!
+    address_id: ID!
+    email: String
+    store_id: ID!
+    active: Boolean!
+    username: String!
+    password: String
+    last_update: String!
+    picture: String
+}
+
+type Store {
+    store_id: ID!
+    manager_staff_id: ID!
+    address_id: ID!
+    last_update: String!
+}
