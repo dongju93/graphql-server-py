@@ -1,8 +1,8 @@
 import strawberry
+from pg_sample_schema.models import *
 from sqlalchemy.orm import Session
 
 from app.database.connect import get_db
-from app.database.models import *
 from app.graphql.types import *
 
 

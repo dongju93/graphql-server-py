@@ -1,9 +1,9 @@
+# from app.database.models import *
 import strawberry
-from sqlalchemy import and_
+from pg_sample_schema.models import *
 from sqlalchemy.orm import Session
 
 from app.database.connect import get_db
-from app.database.models import *
 from app.graphql.types import *
 
 

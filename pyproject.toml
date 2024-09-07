@@ -11,11 +11,10 @@ package-mode = false
 
 [tool.poetry.dependencies]
 python = "^3.12"
-sqlalchemy = "^2.0.34"
 strawberry-graphql = { extras = ["debug-server"], version = "^0.239.2" }
-psycopg2-binary = "^2.9.9"
 fastapi = "^0.114.0"
 uvicorn = { extras = ["standard"], version = "^0.30.6" }
+pg-sample-schema = {path = "my_lib/pg_sample_schema-0.1.0-py3-none-any.whl"}
 
 
 [build-system]
