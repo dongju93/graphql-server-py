@@ -232,17 +232,16 @@ class Query:
             for staff in staffs
         ]
 
-
-@strawberry.field
-def stores(self, limit: int = 10) -> list[StoreGQL]:
-    db: Session = next(get_db())
-    stores = db.query(StoreTable).limit(limit).all()
-    return [
-        StoreGQL(
-            store_id=strawberry.ID(str(store.store_id)),
-            manager_staff_id=strawberry.ID(str(store.manager_staff_id)),
-            address_id=strawberry.ID(str(store.address_id)),
-            last_update=store.last_update,
-        )
-        for store in stores
-    ]
+    @strawberry.field
+    def stores(self, limit: int = 10) -> list[StoreGQL]:
+        db: Session = next(get_db())
+        stores = db.query(StoreTable).limit(limit).all()
+        return [
+            StoreGQL(
+                store_id=strawberry.ID(str(store.store_id)),
+                manager_staff_id=strawberry.ID(str(store.manager_staff_id)),
+                address_id=strawberry.ID(str(store.address_id)),
+                last_update=store.last_update,
+            )
+            for store in stores
+        ]
