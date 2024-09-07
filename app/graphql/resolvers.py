@@ -3,9 +3,9 @@ from datetime import datetime
 import strawberry
 from sqlalchemy.orm import Session
 
-from app.database import get_db
-from app.models import *
-from app.schema import *
+from app.database.connect import get_db
+from app.database.models import *
+from app.graphql.types import *
 
 
 @strawberry.type

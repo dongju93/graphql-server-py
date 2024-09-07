@@ -3,7 +3,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from strawberry.fastapi import GraphQLRouter
 
-from app.resolvers import Query
+from app.graphql.resolvers import Query
 
 schema = strawberry.Schema(query=Query)
 
@@ -24,7 +24,7 @@ graphql_app: GraphQLRouter = GraphQLRouter(schema)
 app.include_router(graphql_app, prefix="/graphql")
 
 
-# 루트 경로 접속 시
+# 루트 경로 접속 시 메시지
 @app.get("/")
 def read_root():
     return {"message": "Welcome to the Strawberry GraphQL Server!"}
