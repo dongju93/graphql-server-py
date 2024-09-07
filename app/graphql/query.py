@@ -1,6 +1,5 @@
-from datetime import datetime
-
 import strawberry
+from sqlalchemy import and_
 from sqlalchemy.orm import Session
 
 from app.database.connect import get_db
@@ -11,9 +10,26 @@ from app.graphql.types import *
 @strawberry.type
 class Query:
     @strawberry.field
-    def actors(self, limit: int = 10) -> list[ActorGQL]:
+    def actors(
+        self,
+        limit: int = 10,
+        first_name: str | None = None,
+        last_name: str | None = None,
+    ) -> list[ActorGQL]:
         db: Session = next(get_db())
-        actors = db.query(ActorTable).limit(limit).all()
+
+        # 기본 쿼리
+        query = db.query(ActorTable)
+
+        # filter 조건
+        if first_name:
+            query = query.filter(ActorTable.first_name == first_name)
+        if last_name:
+            query = query.filter(ActorTable.last_name == last_name)
+
+        # filter 된 결과 반환
+        actors = query.limit(limit).all()
+
         return [
             ActorGQL(
                 actor_id=strawberry.ID(str(actor.actor_id)),

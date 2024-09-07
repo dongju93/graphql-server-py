@@ -83,8 +83,6 @@ type Film {
     special_features: [String]
 }
 
-# 기존 타입들 유지
-
 type FilmActor {
     actor_id: ID!
     film_id: ID!
