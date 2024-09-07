@@ -32,7 +32,7 @@ class Query:
 
         return [
             ActorGQL(
-                actor_id=strawberry.ID(str(actor.actor_id)),
+                actor_id=actor.actor_id,
                 first_name=actor.first_name,
                 last_name=actor.last_name,
                 last_update=actor.last_update,
@@ -46,11 +46,11 @@ class Query:
         addresses = db.query(AddressTable).limit(limit).all()
         return [
             AddressGQL(
-                address_id=strawberry.ID(str(address.address_id)),
+                address_id=address.address_id,
                 address=address.address,
                 address2=address.address2,
                 district=address.district,
-                city_id=strawberry.ID(str(address.city_id)),
+                city_id=address.city_id,
                 postal_code=address.postal_code,
                 phone=address.phone,
                 last_update=address.last_update,
@@ -64,7 +64,7 @@ class Query:
         categories = db.query(CategoryTable).limit(limit).all()
         return [
             CategoryGQL(
-                category_id=strawberry.ID(str(category.category_id)),
+                category_id=category.category_id,
                 name=category.name,
                 last_update=category.last_update,
             )
@@ -77,9 +77,9 @@ class Query:
         cities = db.query(CityTable).limit(limit).all()
         return [
             CityGQL(
-                city_id=strawberry.ID(str(city.city_id)),
+                city_id=city.city_id,
                 city=city.city,
-                country_id=strawberry.ID(str(city.country_id)),
+                country_id=city.country_id,
                 last_update=city.last_update,
             )
             for city in cities
@@ -91,7 +91,7 @@ class Query:
         countries = db.query(CountryTable).limit(limit).all()
         return [
             CountryGQL(
-                country_id=strawberry.ID(str(country.country_id)),
+                country_id=country.country_id,
                 country=country.country,
                 last_update=country.last_update,
             )
@@ -104,12 +104,12 @@ class Query:
         customers = db.query(CustomerTable).limit(limit).all()
         return [
             CustomerGQL(
-                customer_id=strawberry.ID(str(customer.customer_id)),
-                store_id=strawberry.ID(str(customer.store_id)),
+                customer_id=customer.customer_id,
+                store_id=customer.store_id,
                 first_name=customer.first_name,
                 last_name=customer.last_name,
                 email=customer.email,
-                address_id=strawberry.ID(str(customer.address_id)),
+                address_id=customer.address_id,
                 activebool=customer.activebool,
                 create_date=customer.create_date,
                 last_update=customer.last_update,
@@ -124,11 +124,11 @@ class Query:
         films = db.query(FilmTable).limit(limit).all()
         return [
             FilmGQL(
-                film_id=strawberry.ID(str(film.film_id)),
+                film_id=film.film_id,
                 title=film.title,
                 description=film.description,
                 release_year=film.release_year,
-                language_id=strawberry.ID(str(film.language_id)),
+                language_id=film.language_id,
                 rental_duration=film.rental_duration,
                 rental_rate=film.rental_rate,
                 length=film.length,
@@ -147,8 +147,8 @@ class Query:
         film_actors = db.query(FilmActorTable).limit(limit).all()
         return [
             FilmActorGQL(
-                actor_id=strawberry.ID(str(film_actor.actor_id)),
-                film_id=strawberry.ID(str(film_actor.film_id)),
+                actor_id=film_actor.actor_id,
+                film_id=film_actor.film_id,
                 last_update=film_actor.last_update,
             )
             for film_actor in film_actors
@@ -160,8 +160,8 @@ class Query:
         film_categories = db.query(FilmCategoryTable).limit(limit).all()
         return [
             FilmCategoryGQL(
-                film_id=strawberry.ID(str(film_category.film_id)),
-                category_id=strawberry.ID(str(film_category.category_id)),
+                film_id=film_category.film_id,
+                category_id=film_category.category_id,
                 last_update=film_category.last_update,
             )
             for film_category in film_categories
@@ -173,9 +173,9 @@ class Query:
         inventories = db.query(InventoryTable).limit(limit).all()
         return [
             InventoryGQL(
-                inventory_id=strawberry.ID(str(inventory.inventory_id)),
-                film_id=strawberry.ID(str(inventory.film_id)),
-                store_id=strawberry.ID(str(inventory.store_id)),
+                inventory_id=inventory.inventory_id,
+                film_id=inventory.film_id,
+                store_id=inventory.store_id,
                 last_update=inventory.last_update,
             )
             for inventory in inventories
@@ -187,7 +187,7 @@ class Query:
         languages = db.query(LanguageTable).limit(limit).all()
         return [
             LanguageGQL(
-                language_id=strawberry.ID(str(language.language_id)),
+                language_id=language.language_id,
                 name=language.name,
                 last_update=language.last_update,
             )
@@ -200,10 +200,10 @@ class Query:
         payments = db.query(PaymentTable).limit(limit).all()
         return [
             PaymentGQL(
-                payment_id=strawberry.ID(str(payment.payment_id)),
-                customer_id=strawberry.ID(str(payment.customer_id)),
-                staff_id=strawberry.ID(str(payment.staff_id)),
-                rental_id=strawberry.ID(str(payment.rental_id)),
+                payment_id=payment.payment_id,
+                customer_id=payment.customer_id,
+                staff_id=payment.staff_id,
+                rental_id=payment.rental_id,
                 amount=payment.amount,
                 payment_date=payment.payment_date,
             )
@@ -216,12 +216,12 @@ class Query:
         rentals = db.query(RentalTable).limit(limit).all()
         return [
             RentalGQL(
-                rental_id=strawberry.ID(str(rental.rental_id)),
+                rental_id=rental.rental_id,
                 rental_date=rental.rental_date,
-                inventory_id=strawberry.ID(str(rental.inventory_id)),
-                customer_id=strawberry.ID(str(rental.customer_id)),
+                inventory_id=rental.inventory_id,
+                customer_id=rental.customer_id,
                 return_date=rental.return_date,
-                staff_id=strawberry.ID(str(rental.staff_id)),
+                staff_id=rental.staff_id,
                 last_update=rental.last_update,
             )
             for rental in rentals
@@ -233,12 +233,12 @@ class Query:
         staffs = db.query(StaffTable).limit(limit).all()
         return [
             StaffGQL(
-                staff_id=strawberry.ID(str(staff.staff_id)),
+                staff_id=staff.staff_id,
                 first_name=staff.first_name,
                 last_name=staff.last_name,
-                address_id=strawberry.ID(str(staff.address_id)),
+                address_id=staff.address_id,
                 email=staff.email,
-                store_id=strawberry.ID(str(staff.store_id)),
+                store_id=staff.store_id,
                 active=staff.active,
                 username=staff.username,
                 password=staff.password,
@@ -254,9 +254,9 @@ class Query:
         stores = db.query(StoreTable).limit(limit).all()
         return [
             StoreGQL(
-                store_id=strawberry.ID(str(store.store_id)),
-                manager_staff_id=strawberry.ID(str(store.manager_staff_id)),
-                address_id=strawberry.ID(str(store.address_id)),
+                store_id=store.store_id,
+                manager_staff_id=store.manager_staff_id,
+                address_id=store.address_id,
                 last_update=store.last_update,
             )
             for store in stores
