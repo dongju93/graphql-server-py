@@ -1,6 +1,8 @@
 # from app.database.models import *
 import strawberry
 from pg_sample_schema.models import *
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.future import select
 from sqlalchemy.orm import Session
 
 from app.database.connect import get_db
@@ -10,26 +12,30 @@ from app.graphql.types import *
 @strawberry.type
 class Query:
     @strawberry.field
-    def actors(
+    async def actors(
         self,
+        info,
         limit: int = 10,
-        first_name: str | None = None,
-        last_name: str | None = None,
+        first_name: Optional[str] = None,
+        last_name: Optional[str] = None,
     ) -> list[ActorGQL]:
-        db: Session = next(get_db())
+        # 비동기 세션 가져오기
+        async_session: AsyncSession = info.context["db"]
 
-        # 기본 쿼리
-        query = db.query(ActorTable)
+        # 비동기 SQLAlchemy 쿼리 작성
+        query = select(ActorTable)
 
-        # filter 조건
+        # 필터 조건 추가
         if first_name:
-            query = query.filter(ActorTable.first_name == first_name)
+            query = query.where(ActorTable.first_name == first_name)
         if last_name:
-            query = query.filter(ActorTable.last_name == last_name)
+            query = query.where(ActorTable.last_name == last_name)
 
-        # filter 된 결과 반환
-        actors = query.limit(limit).all()
+        # 쿼리 실행
+        result = await async_session.execute(query.limit(limit))
+        actors = result.scalars().all()
 
+        # ActorGQL 객체 리스트 반환
         return [
             ActorGQL(
                 actor_id=actor.actor_id,
@@ -41,7 +47,7 @@ class Query:
         ]
 
     @strawberry.field
-    def addresses(self, limit: int = 10) -> list[AddressGQL]:
+    async def addresses(self, limit: int = 10) -> list[AddressGQL]:
         db: Session = next(get_db())
         addresses = db.query(AddressTable).limit(limit).all()
         return [
@@ -59,7 +65,7 @@ class Query:
         ]
 
     @strawberry.field
-    def categories(self, limit: int = 10) -> list[CategoryGQL]:
+    async def categories(self, limit: int = 10) -> list[CategoryGQL]:
         db: Session = next(get_db())
         categories = db.query(CategoryTable).limit(limit).all()
         return [
@@ -72,7 +78,7 @@ class Query:
         ]
 
     @strawberry.field
-    def cities(self, limit: int = 10) -> list[CityGQL]:
+    async def cities(self, limit: int = 10) -> list[CityGQL]:
         db: Session = next(get_db())
         cities = db.query(CityTable).limit(limit).all()
         return [
@@ -86,7 +92,7 @@ class Query:
         ]
 
     @strawberry.field
-    def countries(self, limit: int = 10) -> list[CountryGQL]:
+    async def countries(self, limit: int = 10) -> list[CountryGQL]:
         db: Session = next(get_db())
         countries = db.query(CountryTable).limit(limit).all()
         return [
@@ -99,7 +105,7 @@ class Query:
         ]
 
     @strawberry.field
-    def customers(self, limit: int = 10) -> list[CustomerGQL]:
+    async def customers(self, limit: int = 10) -> list[CustomerGQL]:
         db: Session = next(get_db())
         customers = db.query(CustomerTable).limit(limit).all()
         return [
@@ -119,7 +125,7 @@ class Query:
         ]
 
     @strawberry.field
-    def films(self, limit: int = 10) -> list[FilmGQL]:
+    async def films(self, limit: int = 10) -> list[FilmGQL]:
         db: Session = next(get_db())
         films = db.query(FilmTable).limit(limit).all()
         return [
@@ -142,7 +148,7 @@ class Query:
         ]
 
     @strawberry.field
-    def film_actors(self, limit: int = 10) -> list[FilmActorGQL]:
+    async def film_actors(self, limit: int = 10) -> list[FilmActorGQL]:
         db: Session = next(get_db())
         film_actors = db.query(FilmActorTable).limit(limit).all()
         return [
@@ -155,7 +161,7 @@ class Query:
         ]
 
     @strawberry.field
-    def film_categories(self, limit: int = 10) -> list[FilmCategoryGQL]:
+    async def film_categories(self, limit: int = 10) -> list[FilmCategoryGQL]:
         db: Session = next(get_db())
         film_categories = db.query(FilmCategoryTable).limit(limit).all()
         return [
@@ -168,7 +174,7 @@ class Query:
         ]
 
     @strawberry.field
-    def inventories(self, limit: int = 10) -> list[InventoryGQL]:
+    async def inventories(self, limit: int = 10) -> list[InventoryGQL]:
         db: Session = next(get_db())
         inventories = db.query(InventoryTable).limit(limit).all()
         return [
@@ -182,7 +188,7 @@ class Query:
         ]
 
     @strawberry.field
-    def languages(self, limit: int = 10) -> list[LanguageGQL]:
+    async def languages(self, limit: int = 10) -> list[LanguageGQL]:
         db: Session = next(get_db())
         languages = db.query(LanguageTable).limit(limit).all()
         return [
@@ -195,7 +201,7 @@ class Query:
         ]
 
     @strawberry.field
-    def payments(self, limit: int = 10) -> list[PaymentGQL]:
+    async def payments(self, limit: int = 10) -> list[PaymentGQL]:
         db: Session = next(get_db())
         payments = db.query(PaymentTable).limit(limit).all()
         return [
@@ -211,7 +217,7 @@ class Query:
         ]
 
     @strawberry.field
-    def rentals(self, limit: int = 10) -> list[RentalGQL]:
+    async def rentals(self, limit: int = 10) -> list[RentalGQL]:
         db: Session = next(get_db())
         rentals = db.query(RentalTable).limit(limit).all()
         return [
@@ -228,7 +234,7 @@ class Query:
         ]
 
     @strawberry.field
-    def staffs(self, limit: int = 10) -> list[StaffGQL]:
+    async def staffs(self, limit: int = 10) -> list[StaffGQL]:
         db: Session = next(get_db())
         staffs = db.query(StaffTable).limit(limit).all()
         return [
@@ -249,7 +255,7 @@ class Query:
         ]
 
     @strawberry.field
-    def stores(self, limit: int = 10) -> list[StoreGQL]:
+    async def stores(self, limit: int = 10) -> list[StoreGQL]:
         db: Session = next(get_db())
         stores = db.query(StoreTable).limit(limit).all()
         return [

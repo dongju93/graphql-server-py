@@ -9,7 +9,7 @@ from app.graphql.types import *
 @strawberry.type
 class Mutation:
     @strawberry.mutation
-    def add_actor(
+    async def add_actor(
         self, first_name: str, last_name: str, last_update: datetime
     ) -> ActorGQL:
         db: Session = next(get_db())

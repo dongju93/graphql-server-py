@@ -14,7 +14,9 @@ python = "^3.12"
 strawberry-graphql = { extras = ["debug-server"], version = "^0.239.2" }
 fastapi = "^0.114.0"
 uvicorn = { extras = ["standard"], version = "^0.30.6" }
+asyncpg = "^0.29.0"
 pg-sample-schema = {path = "my_lib/pg_sample_schema-0.1.0-py3-none-any.whl"}
+greenlet = "^3.0.3"
 
 
 [build-system]
