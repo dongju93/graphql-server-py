@@ -25,4 +25,7 @@ AsyncSessionLocal = sessionmaker(
 # DB 세션 생성 (제너레이터)
 async def get_db():
     async with AsyncSessionLocal(bind=engine) as session:
-        yield session
+        try:
+            yield session
+        finally:
+            await session.close()
