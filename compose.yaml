@@ -1,0 +1,10 @@
+services:
+    graphql-py:
+        image: docker.io/tls2323/graphql-py:latest
+        init: true
+        container_name: graphql-py
+        restart: always
+        ports:
+            - 8200:8200
+        volumes:
+            - /opt/graphql/settings.toml:/graphql/app/settings.toml:ro
