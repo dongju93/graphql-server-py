@@ -20,11 +20,10 @@ app.add_middleware(
 )
 
 
-# 비동기 DB 세션을 주입하는 미들웨어 설정
+# 비동기 DB 세션을 주입하는 미들웨어/컨텍스트 설정
 async def get_context(request: Request):
-    async for db in get_db():
-        request.state.db = db
-    return {"db": request.state.db}
+    async for db in get_db():  # async for로 세션을 가져옴
+        yield {"db": db}  # db를 컨텍스트에 전달
 
 
 # GraphQL 라우터 추가

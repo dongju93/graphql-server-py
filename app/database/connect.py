@@ -1,10 +1,13 @@
-from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
+from sqlalchemy.ext.asyncio import (
+    AsyncSession,
+    async_sessionmaker,
+    create_async_engine,
+)
 from sqlalchemy.ext.asyncio.engine import AsyncEngine
-from sqlalchemy.orm import sessionmaker
 
 from app.load_settings import read_settings
 
-DATABASE_URL = read_settings("database_url", "database", "postgresql")
+DATABASE_URL: str = read_settings("database_url", "database", "postgresql")
 
 # SQLAlchemy 연결, 세션 클래스 생성
 engine: AsyncEngine = create_async_engine(
@@ -14,7 +17,8 @@ engine: AsyncEngine = create_async_engine(
     pool_timeout=30,
     pool_recycle=1800,
 )
-AsyncSessionLocal = sessionmaker(
+
+AsyncSessionLocal = async_sessionmaker(
     autocommit=False,
     autoflush=False,
     class_=AsyncSession,
@@ -25,7 +29,4 @@ AsyncSessionLocal = sessionmaker(
 # DB 세션 생성 (제너레이터)
 async def get_db():
     async with AsyncSessionLocal(bind=engine) as session:
-        try:
-            yield session
-        finally:
-            await session.close()
+        yield session
