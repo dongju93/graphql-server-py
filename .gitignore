@@ -210,3 +210,4 @@ pyrightconfig.json
 
 app/settings.toml
 *.lock
+my_lib/
